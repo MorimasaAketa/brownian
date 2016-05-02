@@ -1,7 +1,7 @@
 // main.cpp
 #include "ofMain.h"
 
-#define NParticle 10000
+#define NParticle 4096
 
 class ofApp : public ofBaseApp{
     
@@ -25,8 +25,8 @@ public:
 
     }
     void draw(){
-        double salt   = ofMap(ofGetMouseX(), 0,  ofGetWidth(), 0, 0.1);
-        double length = ofMap(ofGetMouseX(), 0, ofGetWidth(), 0, 5);
+        double salt   = ofMap(ofGetMouseX(), 0,  ofGetWidth(), -0.1, 0.1);
+        double length = ofMap(abs(ofGetHeight()/2-ofGetMouseY()), 0, ofGetHeight()/2, 0, 100);
         ofSetColor(255);
         
         for (int i=0; i< NParticle; i++) {
@@ -34,7 +34,7 @@ public:
                        particlePos[i].x + particleVec[i].x* length*length*2,
                        particlePos[i].y + particleVec[i].y* length*length*2);
             double radius = particlePos[i].distance(ofVec2f(ofGetWidth()/2, ofGetHeight()/2));
-            double salt_with_radius = salt * radius/ofGetHeight()/2;
+            double salt_with_radius = salt * radius/ofGetHeight()*4;
             
             particleVec[i].rotateRad((particleRot[i] + salt_with_radius*ofSign(particleRot[i])) * PI);
             particlePos[i].x += particleVec[i].x;
